@@ -16,6 +16,8 @@ public class FloydWarshallMain {
         curtask.addJarFile("FloydWarshallModule.jar");
         matrix = readData(curtask.findFile("input"));
 
+        System.out.println("Vertices count: " + matrix.length);
+
         if (matrix.length % NUM_DAEMONS != 0)
         {
             System.out.println(String.format("Matrix size (now u1=%s) should be divided by u2=%s!", matrix.length, NUM_DAEMONS));
@@ -35,11 +37,18 @@ public class FloydWarshallMain {
         }
 
         distributeData();
+
+        long startTime = System.nanoTime();
         parallelFloyd();
+        long stopTime = System.nanoTime();
+
+        System.out.println("The given input has been successfully processed. ");
+        System.out.println("Execution time: " + (stopTime - startTime));
+
         int[][] result = gatherData();
 
+        System.out.println("RESULT DISTANCES");
         print(result);
-        System.out.println("Done");
         System.out.println();
     }
 
@@ -104,7 +113,7 @@ public class FloydWarshallMain {
     private static void print(int[][] ans) {
         for (int j = 0; j < ans.length; j++) {
             for (int k = 0; k < ans.length; k++) {
-                System.out.println(ans[j][k]);
+                System.out.print(ans[j][k] + " ");
             }
             System.out.println();
         }
