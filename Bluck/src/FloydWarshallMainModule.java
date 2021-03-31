@@ -3,7 +3,7 @@ import parcs.*;
 import java.io.File;
 import java.util.Scanner;
 
-public class FloydWarshallMainModule implements AM {
+public class FloydWarshallMainModule {
 
     private static int NUM_DAEMONS = 2;
 
@@ -12,35 +12,20 @@ public class FloydWarshallMainModule implements AM {
     private static int[][] matrix;
 
     public static void main(String[] args) throws Exception {
-        try {
-            task curtask = new task();
-            curtask.addJarFile("FloydWarshallMainModule.jar");
-            matrix = readData(curtask.findFile("input"));
-
-            AMInfo info = new AMInfo(curtask, null);
-            point p = info.createPoint();
-            channel c = p.createChannel();
-            p.execute("FloydWarshallMainModule");
-            c.write(matrix);
-
-            System.out.println("Waiting for result...");
-            System.out.println("Result: " + c.readLong());
-            curtask.end();
-        }catch(Exception ex)
-        {
-            System.out.println(ex.getStackTrace());
-        }
-    }
-
-    public void run(AMInfo info) {
-        channels = new channel[NUM_DAEMONS];
-        points = new point[NUM_DAEMONS];
+        task curtask = new task();
+        curtask.addJarFile("FloydWarshallMainModule.jar");
+        matrix = readData(curtask.findFile("input"));
 
         if (matrix.length % NUM_DAEMONS != 0)
         {
             System.out.println(String.format("Matrix size (now u1=%s) should be divided by u2=%s!", matrix.length, NUM_DAEMONS));
             return;
         }
+
+        channels = new channel[NUM_DAEMONS];
+        points = new point[NUM_DAEMONS];
+
+        AMInfo info = new AMInfo(curtask, null);
 
         for (int i = 0; i < NUM_DAEMONS; ++i)
         {
@@ -58,7 +43,7 @@ public class FloydWarshallMainModule implements AM {
         System.out.println();
     }
 
-    private int[][] gatherData()
+    private static int[][] gatherData()
     {
         int chunkSize = matrix.length / NUM_DAEMONS;
         int[][] result = new int[matrix.length][];
@@ -75,7 +60,7 @@ public class FloydWarshallMainModule implements AM {
         return result;
     }
 
-    private void parallelFloyd()
+    private static void parallelFloyd()
     {
         Object locker = new Object();
         int chunkSize = matrix.length / NUM_DAEMONS;
@@ -97,7 +82,7 @@ public class FloydWarshallMainModule implements AM {
         }
     }
 
-    private void distributeData()
+    private static void distributeData()
     {
         for (int i = 0; i < channels.length; i++)
         {
