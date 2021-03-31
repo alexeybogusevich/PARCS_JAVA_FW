@@ -12,19 +12,24 @@ public class FloydWarshallMainModule implements AM {
     private static int[][] matrix;
 
     public static void main(String[] args) throws Exception {
-        task curtask = new task();
-        curtask.addJarFile("FloydWarshallMainModule.jar");
-        matrix = readData(curtask.findFile("input"));
+        try {
+            task curtask = new task();
+            curtask.addJarFile("FloydWarshallMainModule.jar");
+            matrix = readData(curtask.findFile("input"));
 
-        AMInfo info = new AMInfo(curtask, null);
-        point p = info.createPoint();
-        channel c = p.createChannel();
-        p.execute("FloydWarshallMainModule");
-        c.write(matrix);
+            AMInfo info = new AMInfo(curtask, null);
+            point p = info.createPoint();
+            channel c = p.createChannel();
+            p.execute("FloydWarshallMainModule");
+            c.write(matrix);
 
-        System.out.println("Waiting for result...");
-        System.out.println("Result: " + c.readLong());
-        curtask.end();
+            System.out.println("Waiting for result...");
+            System.out.println("Result: " + c.readLong());
+            curtask.end();
+        }catch(Exception ex)
+        {
+            System.out.println(ex.getStackTrace());
+        }
     }
 
     public void run(AMInfo info) {
