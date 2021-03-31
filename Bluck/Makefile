@@ -9,9 +9,9 @@ out/FloydWarshallMainModule.jar: out/parcs.jar src/FloydWarshallMainModule.java
 	@rm -f src/FloydWarshallMainModule.class
 
 out/.jar: out/parcs.jar src/FloydWarshallMainModule.java
-	@javac -cp out/parcs.jar src/FloydWarshallModule.java src/Node.java
-	@jar cf out/FloydWarshallModule.jar -C src FloydWarshallModule.class -C src Node.class
-	@rm -f src/FloydWarshallModule.class src/Node.class
+	@javac -cp out/parcs.jar src/FloydWarshallModule.java
+	@jar cf out/FloydWarshallModule.jar -C src FloydWarshallModule.class
+	@rm -f src/FloydWarshallModule.class
 
 build: out/FloydWarshallMainModule.jar out/.jar
 
