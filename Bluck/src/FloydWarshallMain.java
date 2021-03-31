@@ -3,7 +3,7 @@ import parcs.*;
 import java.io.File;
 import java.util.Scanner;
 
-public class FloydWarshallMainModule {
+public class FloydWarshallMain {
 
     private static int NUM_DAEMONS = 2;
 
@@ -13,7 +13,7 @@ public class FloydWarshallMainModule {
 
     public static void main(String[] args) throws Exception {
         task curtask = new task();
-        curtask.addJarFile("FloydWarshallMainModule.jar");
+        curtask.addJarFile("FloydWarshallModule.jar");
         matrix = readData(curtask.findFile("input"));
 
         if (matrix.length % NUM_DAEMONS != 0)

@@ -1,49 +1,19 @@
-##
-# source directory
-##
-SRC_DIR := src
+all: run
 
-##
-# output directory
-##
-OUT_DIR := out
-
-##
-# sources
-##
-SRCS := $(wildcard $(SRC_DIR)/*.java)
-
-##
-# classes
-## 
-CLS := $(SRCS:$(SRC_DIR)/%.java=$(OUT_DIR)/%.class)
-
-##
-# compiler and compiler flags
-##
-JC := javac
-JCFLAGS := -d $(OUT_DIR)/ -cp $(SRC_DIR)/
-
-##
-# suffixes
-##
-.SUFFIXES: .java
-
-##
-# targets that do not produce output files
-##
-.PHONY: all clean
-
-##
-# default target(s)
-##
-all: $(CLS)
-
-$(CLS): $(OUT_DIR)/%.class: $(SRC_DIR)/%.java
-    $(JC) $(JCFLAGS) $<
-
-##
-# clean up any output files
-##
 clean:
-    rm $(OUT_DIR)/*.class
+	rm -f out/FloydWarshallMain.jar out/FloydWarshallModule.jar
+
+out/FloydWarshallMain.jar: out/parcs.jar src/FloydWarshallMain.java
+	@javac -cp out/parcs.jar src/FloydWarshallMain.java
+	@jar cf out/FloydWarshallMain.jar -C src FloydWarshallMain.class
+	@rm -f src/FloydWarshallMain.class
+
+out/DFS.jar: out/parcs.jar src/FloydWarshallModule.java src/Node.java
+	@javac -cp out/parcs.jar src/FloydWarshallModule.java
+	@jar cf out/FloydWarshallModule.jar -C src FloydWarshallModule.class
+	@rm -f src/FloydWarshallModule.class
+
+build: out/FloydWarshallMain.jar out/FloydWarshallModule.jar
+
+run: out/FloydWarshallMain.jar out/FloydWarshallModule.jar
+	@cd out && java -cp 'parcs.jar:FloydWarshallMain.jar' FloydWarshallMain
