@@ -42,14 +42,14 @@ public class FloydWarshallMain {
         parallelFloyd();
         long stopTime = System.nanoTime();
 
-        System.out.println("The given input has been successfully processed. ");
-        System.out.println("Execution time: " + (stopTime - startTime));
-
         int[][] result = gatherData();
 
         System.out.println("RESULT DISTANCES");
         print(result);
         System.out.println();
+
+        System.out.println("The given input has been successfully processed. ");
+        System.out.println("Computation time: " + (stopTime - startTime));
     }
 
     private static int[][] gatherData()
