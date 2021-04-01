@@ -49,7 +49,7 @@ public class FloydWarshallMain {
         System.out.println();
 
         System.out.println("The given input has been successfully processed. ");
-        System.out.println("Computation time: " + (stopTime - startTime));
+        System.out.println("Computation time: " + (stopTime - startTime) / 1_000_000_000.0);
     }
 
     private static int[][] gatherData()
